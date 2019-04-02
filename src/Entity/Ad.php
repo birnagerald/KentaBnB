@@ -3,13 +3,19 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ * fields={"title"},
+ * message="Une autre annonce possède déjà ce titre, merci de le modifier"
+ * )
  */
 class Ad
 {
@@ -22,6 +28,12 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 255,
+     *      minMessage = "Votre titre doit faire plus de {{ limit }} caractères",
+     *      maxMessage = "Votre titre doit faire moins de {{ limit }} caractères"
+     * )
      */
     private $title;
 
@@ -32,31 +44,49 @@ class Ad
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Range(
+     *      min = 1.00,
+     *      minMessage = "Le prix doit être au minimum de {{ limit }}"
+     * )
      */
     private $price;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *      min = 20,
+     *      minMessage = "Votre description doit faire plus de {{ limit }} caractères"
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *      min = 100,
+     *      minMessage = "Votre Description détaillée doit faire plus de {{ limit }} caractères"
+     * )
      */
     private $about;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $coverImage;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      minMessage = "Le nombre de chambre doit être au minimum de {{ limit }}"
+     * )
      */
     private $rooms;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", cascade="all", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $images;
 

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Ad;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -18,11 +20,18 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 255,
+     *      minMessage = "Le titre de l'image doit faire plus de {{ limit }} caractères",
+     *      maxMessage = "Le titre de l'image doit faire moins de {{ limit }} caractères"
+     * )
      */
     private $caption;
 
@@ -31,6 +40,15 @@ class Image
      * @ORM\JoinColumn(nullable=false)
      */
     private $ad;
+
+    /**
+     * Constructor
+     *
+     * @param Ad $ad
+     */
+    public function __construct(Ad $ad = null){
+        $this->ad = $ad;
+    }
 
     public function getId(): ?int
     {
