@@ -43,7 +43,7 @@ class Ad
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    private $about;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -133,14 +133,14 @@ class Ad
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getAbout(): ?string
     {
-        return $this->content;
+        return $this->about;
     }
 
-    public function setContent(string $content): self
+    public function setAbout(string $about): self
     {
-        $this->content = $content;
+        $this->about = $about;
 
         return $this;
     }

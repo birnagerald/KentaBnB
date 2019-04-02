@@ -20,12 +20,12 @@ class AppFixtures extends Fixture
             $title = $faker->sentence();
             $coverImage = $faker->imageUrl();
             $description = $faker->paragraph(2);
-            $content = '<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>';
+            $about = '<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>';
 
             $ad->setTitle($title)
                 ->setCoverImage($coverImage)
                 ->setDescription($description)
-                ->setContent($content)
+                ->setAbout($about)
                 ->setPrice(mt_rand(40,200))
                 ->setRooms(mt_rand(1,5));
 
