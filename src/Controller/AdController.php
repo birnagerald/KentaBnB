@@ -44,6 +44,8 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $ad->setAuthor($this->getUser());
             $manager->persist($ad);
             $manager->flush();
 
