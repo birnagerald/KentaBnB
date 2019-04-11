@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -32,6 +34,7 @@ class AdController extends AbstractController
     /**
      * Create an ad
      * @Route("/ads/new", name="ads_create")
+     * @IsGranted("ROLE_USER")
      * 
      * @param Request $request
      * @return Response
@@ -68,6 +71,7 @@ class AdController extends AbstractController
      * Edit an ad
      *
      * @Route("/ads/{slug}/edit", name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
      * 
      * @return Response
      */
@@ -95,6 +99,29 @@ class AdController extends AbstractController
             'ad' => $ad
         ]);
     }
+
+     /**
+     * Delete an ad
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
+     *
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, ObjectManager $manager): Response
+    {
+        $manager->remove($ad);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "l'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée !"
+        );
+        return $this->redirectToRoute("ads_index");
+
+    }
+
     /**
      * Show one ad for the user
      * @Route("/ads/{slug}", name="ads_show")
@@ -109,6 +136,7 @@ class AdController extends AbstractController
         ]);
 
     }
+
 
     
 }
