@@ -34,6 +34,7 @@ div.carousel-caption {
     max-height: 24px;
 }
 
-.badge {
-    padding: 0.50em 0.8em;
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+    color: firebrick !important;
 }
