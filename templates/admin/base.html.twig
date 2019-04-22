@@ -5,23 +5,16 @@
     <meta charset="UTF-8">
     <title>KentaBnB - {% block title %}Welcome!{% endblock %}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    {{ encore_entry_link_tags('app') }}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/app.css">
     {% block stylesheets %}{% endblock %}
 </head>
 
 <body>
-
     {% include 'admin/shared/header.html.twig' %}
-
     {% block body %}{% endblock %}
-
     {% include 'admin/shared/footer.html.twig' %}
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    {{ encore_entry_script_tags('app') }}
     {% block javascripts %}{% endblock %}
 </body>
 
